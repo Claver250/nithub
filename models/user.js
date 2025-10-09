@@ -1,5 +1,6 @@
 const {Sequelize, DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require("../config/database");
+const { timeStamp } = require('node:console');
 
 const User =sequelize.define ('User', {
     userID : {
@@ -20,10 +21,26 @@ const User =sequelize.define ('User', {
         defaultValue: 'Janedoe@gmail.com',
         unique : true
     },
-    password : {
-        type: DataTypes.TEXT,
+    phoneNumber: {
+        type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
+    },
+    password : {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    dateOfBirth: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
-} )
+},
+{
+    timeStamps: true,
+});
 
 module.exports = User;

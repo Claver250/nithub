@@ -17,7 +17,7 @@ exports.createUser = async (req, res) => {
     try {
         const {error, value} = userSchema.validate(req.body);
         if (error) return res.status(400).json({error : error.message});
-        const {name, email, password } = value;
+        const {name, email, phoneNumber, password, address, dateOfBirth } = value;
 
         // Check for duplicate email
         const existingUser = await User.findOne({ where: {email} });
@@ -27,7 +27,12 @@ exports.createUser = async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         // Create new user
-        const newUser = await User.create({ name, email, password: hashedPassword});
+        const newUser = await User.create({ name,
+            email,
+            phoneNumber,
+            password: hashedPassword, 
+            address, 
+            dateOfBirth});
 
         res.status(201).json({
             message: 'User registered successfully',
