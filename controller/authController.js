@@ -6,7 +6,9 @@ const { error } = require('console');
 
 exports.getUsers = async(req, res) => {
     try {
-        const users = await User.find(); 
+        const users = await User.findAll({
+            attributes: ['userId', 'name', 'email','phoneNumber', 'createdAt']
+        }); 
         res.json(users);
     } catch(err) {
         res.status(500).json({error: err.message});

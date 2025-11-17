@@ -2,7 +2,7 @@ const {Sequelize, DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require("../config/database");
 const { timeStamp } = require('node:console');
 
-const User =sequelize.define ('User', {
+const User = sequelize.define ('User', {
     userID : {
         type: DataTypes.UUID,
         primaryKey: true,
