@@ -1,8 +1,9 @@
 const User = require('../models/user');
+const Account = require('../models/account');
 const {userSchema, loginSchema} = require('../validators/userValidate')
 const {hashPassword, comparePassword} = require('../utils/bcrypt');
 const { generateToken } = require('../utils/token');
-const { error } = require('console');
+const generateUniqueAccountNumber = require('../utils/accountNumberGenerator');
 
 exports.getUsers = async(req, res) => {
     try {
@@ -36,9 +37,19 @@ exports.createUser = async (req, res) => {
             address, 
             dateOfBirth});
 
+        // const accountNumber = await generateUniqueAccountNumber();
+
+        // const account = await Account.create({
+        //     userID: newUser.userId,
+        //     accountType: 'savings',
+        //     accountNumber,
+        //     balance: 0.0,
+        // })
+
         res.status(201).json({
             message: 'User registered successfully',
-            user: {id: newUser.userID, name: newUser.name, email: newUser.email}
+            user: {id: newUser.userID, name: newUser.name, email: newUser.email},
+            // account: { accountNumber: account.accountNumber, balance: account.balance}
         });
     }catch(err){
         res.status(500).json({ error : err.message });

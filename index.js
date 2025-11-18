@@ -26,7 +26,7 @@ app.use('/api/auth', authRoutes)
 // account routes
 app.use('/api/accounts', accountRoutes);
 
-app.use('/api/transfer', transferRoutes);
+app.use('/api/transfers', transferRoutes);
 
 app.use('/api/beneficiaries', beneficiaryRoutes);
 

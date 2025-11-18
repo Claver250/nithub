@@ -1,6 +1,7 @@
 const {Sequelize, DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require("../config/database");
 const User = require('./user')
+const generateUniqueAccountNumber = require('../utils/accountNumberGenerator');
 
 const Account = sequelize.define('Account', {
     accountID : {
@@ -24,7 +25,6 @@ const Account = sequelize.define('Account', {
         defaultValue: 0.0,
     },
     userID: {
-
         type: DataTypes.UUID,
         allowNull: false,
     },
@@ -33,8 +33,9 @@ const Account = sequelize.define('Account', {
 Account.belongsTo(User, { foreignKey: 'userID'});
 User.hasMany(Account, { foreignKey: 'userID'});
 
-Account.beforeCreate(async (account, options) => {
-    account.accountNumber = await generateUniqueAccountNumber();
-});
+// Account.beforeCreate(async (account) => {
+//     Account.accountNumber = await generateUniqueAccountNumber();
+//     console.log('Hook running, generated accountNumber:', Account.accountNumber);
+// });
 
 module.exports = Account;

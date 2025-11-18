@@ -3,11 +3,13 @@ const router =express.Router();
 const accountController = require('../controller/accountController');
 const authenticate = require('../middlewares/authMiddleware');
 
-router.get('/', authenticate,  accountController.getAccounts);
+router.post('/create',   accountController.createAccount);
 
-router.get('/{id}', authenticate, accountController.getAccountsByNumber);
+router.get('/',   accountController.getAccounts);
 
-router.get('/{id}/transactions', authenticate, accountController.getTransactionByAccount);
+router.get('/:accountID', accountController.getAccountsById);
+
+router.get('/:accountID/transactions', accountController.getTransactionByAccount);
 
 
 

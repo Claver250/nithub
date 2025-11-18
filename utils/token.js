@@ -7,7 +7,7 @@ const EXPIRES_IN = '1d';
 const generateToken = (user) => {
     return jwt.sign(
         {
-            id: user.userID,
+            userID: user.userID,
             name: user.name,
             email: user.email,
         },

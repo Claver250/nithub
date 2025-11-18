@@ -1,26 +1,31 @@
 const Beneficiary = require('../models/beneficiary');
 const Account = require('../models/account');
+const User = require('../models/user')
 
 exports.addBeneficiary = async (req, res) => {
     try{
-        const userId = req.user.id;
+        const userID = req.user.userID;
         const {accountNumber, bankName, alias} = req.body;
+
+        if (!accountNumber || !bankName || !alias) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
 
         const account = await Account.findOne({where: {accountNumber}});
         if(!account){
             return res.status(404).json({message: 'Account not found'})
         }
 
-        if(account.userId === userId ) { 
+        if(account.userID === userID ) { 
             return res.status(400).json({message: 'You cannot add your account as a beneficiary'})}
 
-        const exists = await Beneficiary.findOne({where: {userID: userId, accountNumber}});
+        const exists = await Beneficiary.findOne({where: {userID, accountNumber}});
         if (exists) {
             return res.status(400).json({message: 'Beneficiary already exists'})
         };
 
         const beneficiary = await Beneficiary.create({
-            userID: userId,
+            userID,
             accountNumber,
             bankName,
             alias
