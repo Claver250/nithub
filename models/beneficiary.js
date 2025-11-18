@@ -1,12 +1,16 @@
-const {Sequelize, DataTypes, UUIDV4} = require('sequelize');
-const sequelize = require("../config/database");
+const { Sequelize, DataTypes, UUIDV4 } = require('sequelize');
+const sequelize = require('../config/database');
 const User = require('./user');
 
 const Beneficiary = sequelize.define('Beneficiary', {
     beneficiaryID: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: UUIDV4,
         primaryKey: true,
+    },
+    userID: {               // The user who added this beneficiary
+        type: DataTypes.UUID,
+        allowNull: false
     },
     alias: {
         type: DataTypes.STRING,
@@ -22,7 +26,8 @@ const Beneficiary = sequelize.define('Beneficiary', {
     }
 });
 
-Beneficiary.belongsTo(User, {foreignKey: 'userID'});
-Beneficiary.hasMany(Beneficiary, {foreignKey: 'userID'});
+// Associations
+Beneficiary.belongsTo(User, { foreignKey: 'userID' });
+User.hasMany(Beneficiary, { foreignKey: 'userID' });
 
 module.exports = Beneficiary;
